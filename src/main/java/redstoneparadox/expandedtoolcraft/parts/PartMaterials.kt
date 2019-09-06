@@ -20,4 +20,7 @@ object PartMaterials {
         return materialsMap[id]
     }
 
+    fun getMaterials(): List<PartMaterial> {
+        return ArrayList(materialsMap.values)
+    }
 }

@@ -15,6 +15,8 @@ import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.util.Identifier
 import redstoneparadox.expandedtoolcraft.ExpandedToolcraft
 import redstoneparadox.expandedtoolcraft.client.render.DynamicToolBakedModel
+import redstoneparadox.expandedtoolcraft.item.Items
+import redstoneparadox.expandedtoolcraft.parts.PartMaterials
 import java.util.function.Consumer
 import java.util.function.Function
 
@@ -22,27 +24,35 @@ import java.util.function.Function
 object ExpandedToolcraftClient : ClientModInitializer {
 
     override fun onInitializeClient() {
+        val materials = PartMaterials.getMaterials()
+        val parts = Items.getParts()
+        val toolIDs = Items.getToolIDs()
+
         ModelLoadingRegistry.INSTANCE.registerVariantProvider { resourceManager ->
             ModelVariantProvider { modelIdentifier, modelProviderContext ->
-                if (modelIdentifier.namespace == ExpandedToolcraft.ID && modelIdentifier.path == "pickaxe") {
-                    return@ModelVariantProvider object : UnbakedModel {
-                        override fun bake(var1: ModelLoader?, var2: Function<Identifier, Sprite>?, var3: ModelBakeSettings?): BakedModel? = DynamicToolBakedModel()
 
-                        override fun getModelDependencies(): MutableCollection<Identifier> = mutableListOf()
+                for (id in toolIDs) {
+                    if (modelIdentifier.namespace == id.namespace && modelIdentifier.path == id.path) {
+                        return@ModelVariantProvider object : UnbakedModel {
+                            override fun bake(var1: ModelLoader?, var2: Function<Identifier, Sprite>?, var3: ModelBakeSettings?): BakedModel? = DynamicToolBakedModel()
 
-                        override fun getTextureDependencies(var1: Function<Identifier, UnbakedModel>?, var2: MutableSet<String>?): MutableCollection<Identifier> = mutableListOf()
+                            override fun getModelDependencies(): MutableCollection<Identifier> = mutableListOf()
 
+                            override fun getTextureDependencies(var1: Function<Identifier, UnbakedModel>?, var2: MutableSet<String>?): MutableCollection<Identifier> = mutableListOf()
+
+                        }
                     }
                 }
-                else {
-                    return@ModelVariantProvider null
-                }
+                return@ModelVariantProvider null
             }
         }
 
         ModelLoadingRegistry.INSTANCE.registerAppender { manager, consumer ->
-            consumer.accept(ModelIdentifier(Identifier(ExpandedToolcraft.ID, "wood_handle"), "inventory"))
-            consumer.accept(ModelIdentifier(Identifier(ExpandedToolcraft.ID, "wood_pickaxe_head"), "inventory"))
+            for (material in materials) {
+                for (part in parts) {
+                    consumer.accept(ModelIdentifier(Identifier("${material.getNamespace()}:${material.getMaterialPrefix()}_${part.getPartName()}"), "inventory"))
+                }
+            }
         }
     }
 }

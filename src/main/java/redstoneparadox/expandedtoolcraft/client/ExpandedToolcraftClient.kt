@@ -15,6 +15,7 @@ import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.util.Identifier
 import redstoneparadox.expandedtoolcraft.ExpandedToolcraft
 import redstoneparadox.expandedtoolcraft.client.render.DynamicToolBakedModel
+import redstoneparadox.expandedtoolcraft.client.render.DynamicToolPartBakedModel
 import redstoneparadox.expandedtoolcraft.item.Items
 import redstoneparadox.expandedtoolcraft.parts.PartMaterials
 import java.util.function.Consumer
@@ -27,6 +28,13 @@ object ExpandedToolcraftClient : ClientModInitializer {
         val materials = PartMaterials.getMaterials()
         val parts = Items.getParts()
         val toolIDs = Items.getToolIDs()
+        val partIDs = arrayListOf<Identifier>()
+
+        for (material in materials) {
+            for (part in parts) {
+                partIDs.add(Identifier("expandedtoolcraft:${part.getPartName()}"))
+            }
+        }
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider { resourceManager ->
             ModelVariantProvider { modelIdentifier, modelProviderContext ->
@@ -43,6 +51,17 @@ object ExpandedToolcraftClient : ClientModInitializer {
                         }
                     }
                 }
+                for (id in partIDs) {
+                    if (modelIdentifier.namespace == id.namespace && modelIdentifier.path == id.path) {
+                        return@ModelVariantProvider object : UnbakedModel {
+                            override fun bake(var1: ModelLoader?, var2: Function<Identifier, Sprite>?, var3: ModelBakeSettings?): BakedModel? = DynamicToolPartBakedModel()
+
+                            override fun getModelDependencies(): MutableCollection<Identifier> = mutableListOf()
+
+                            override fun getTextureDependencies(var1: Function<Identifier, UnbakedModel>?, var2: MutableSet<String>?): MutableCollection<Identifier> = mutableListOf()
+                        }
+                    }
+                }
                 return@ModelVariantProvider null
             }
         }
@@ -50,7 +69,8 @@ object ExpandedToolcraftClient : ClientModInitializer {
         ModelLoadingRegistry.INSTANCE.registerAppender { manager, consumer ->
             for (material in materials) {
                 for (part in parts) {
-                    consumer.accept(ModelIdentifier(Identifier("${material.getNamespace()}:${material.getMaterialPrefix()}_${part.getPartName()}"), "inventory"))
+                    val id = Identifier(material.getNamespace(), "${material.getMaterialPrefix()}_${part.getPartName()}")
+                    consumer.accept(ModelIdentifier(id, "inventory"))
                 }
             }
         }

@@ -10,6 +10,7 @@ import net.minecraft.client.render.model.json.JsonUnbakedModel
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.texture.Sprite
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -47,14 +48,8 @@ class DynamicToolPartBakedModel : BakedModel, FabricBakedModel {
     override fun emitItemQuads(stack: ItemStack, randSupplier: Supplier<Random>, context: RenderContext) {
         val item = stack.item
         if (item is PartItem) {
-            val model =
-                    item
-                            .resolveModel(
-                            stack,
-                            MinecraftClient
-                                    .getInstance()
-                                    .bakedModelManager)
-            context.fallbackConsumer().accept(model)
+            val id = item.resolveModelID(stack)
+            context.fallbackConsumer().accept(MinecraftClient.getInstance().bakedModelManager.getModel(ModelIdentifier(id, "inventory")))
         }
     }
 

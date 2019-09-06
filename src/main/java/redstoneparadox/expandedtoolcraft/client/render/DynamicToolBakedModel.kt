@@ -21,6 +21,7 @@ import java.util.*
 import java.util.function.Supplier
 import java.io.IOException
 import net.minecraft.client.render.model.json.JsonUnbakedModel
+import net.minecraft.client.util.ModelIdentifier
 import java.io.InputStreamReader
 import java.io.BufferedReader
 import java.io.Reader
@@ -53,9 +54,9 @@ class DynamicToolBakedModel : BakedModel, FabricBakedModel {
     override fun emitItemQuads(stack: ItemStack, randSupplier: Supplier<Random>, context: RenderContext) {
         val item = stack.item
         if (item is ModularToolItem) {
-            val models = item.resolvePartModels(stack, MinecraftClient.getInstance().bakedModelManager)
-            for (model in models) {
-                context.fallbackConsumer().accept(model)
+            val ids = item.resolvePartModelIDs(stack)
+            for (id in ids) {
+                context.fallbackConsumer().accept(MinecraftClient.getInstance().bakedModelManager.getModel(ModelIdentifier(id, "inventory")))
             }
         }
     }

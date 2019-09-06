@@ -15,20 +15,15 @@ class PartItem(private val name : String) : Item(Item.Settings().group(ItemGroup
         return name
     }
 
-    fun resolveModel(stack: ItemStack, manager: BakedModelManager): BakedModel? {
-        val materialID = stack.tag?.getString("material")
-                ?: // TODO: Print a warning
-                return manager.missingModel
-
+    fun resolveModelID(stack: ItemStack): Identifier {
+        val materialID = stack.tag?.getString("material") ?: return Identifier("minecraft:missingno")
         val material = PartMaterials.get(materialID)
-
         if (material != null) {
             val partID = "${material.getMaterialPrefix()}_$name"
             val partNamespace = material.getNamespace()
-            val modelID = ModelIdentifier(Identifier(partNamespace, partID), "inventory")
-            return manager.getModel(modelID)
+            return Identifier(partNamespace, partID)
         }
-        //TODO: Print a warning
-        return manager.missingModel
+        return Identifier("minecraft:missingno")
     }
+    
 }

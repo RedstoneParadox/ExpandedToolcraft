@@ -20,18 +20,12 @@ class ModularToolItem(private val parts : HashMap<String, PartItem>) : ToolItem(
         (material as DelegatedToolMaterial).addDelegate(this)
     }
 
-    @Environment(EnvType.CLIENT)
-    fun resolvePartModels(stack: ItemStack, manager: BakedModelManager): ArrayList<BakedModel> {
-        val models = arrayListOf<BakedModel>()
+    fun resolvePartModelIDs(stack: ItemStack): List<Identifier> {
+        val ids = arrayListOf<Identifier>()
 
-        val materialsData = stack.getSubTag("materials")
-                ?: // Warn about this
-                return models
-
-        if (materialsData.isEmpty) {
-            // Warn about this
-            return models
-        }
+        //TODO: Warn about this
+        val materialsData = stack.getSubTag("materials") ?: return ids
+        if (materialsData.isEmpty) return ids
 
         for (key in parts.keys) {
             val part = parts[key]
@@ -41,13 +35,11 @@ class ModularToolItem(private val parts : HashMap<String, PartItem>) : ToolItem(
             if (part != null && material != null) {
                 val namespace = material.getNamespace()
                 val partID = "${material.getMaterialPrefix()}_${part.getPartName()}"
-                val modelID = ModelIdentifier(Identifier(namespace, partID), "inventory")
-                models.add(manager.getModel(modelID))
+                ids.add(Identifier(namespace, partID))
             }
-            else return models
         }
 
-        return models
+        return ids
     }
 
     // Code here from getting the repair ingredient from the head material.

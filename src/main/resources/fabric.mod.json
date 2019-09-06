@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "expandedtoolcraft",
+  "version": "${version}",
+
+  "name": "Expanded Toolcraft",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "RedstoneParadox"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "ARR",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "redstoneparadox.expandedtoolcraft.ExpandedToolcraft"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "redstoneparadox.expandedtoolcraft.client.ExpandedToolcraftClient"
+      }
+    ]
+  },
+  "mixins": [
+    "modulargear.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

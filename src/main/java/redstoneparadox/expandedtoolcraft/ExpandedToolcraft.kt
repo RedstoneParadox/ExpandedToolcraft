@@ -2,7 +2,7 @@ package redstoneparadox.expandedtoolcraft
 
 import net.fabricmc.api.ModInitializer
 import redstoneparadox.expandedtoolcraft.item.Items
-import redstoneparadox.expandedtoolcraft.parts.PartMaterials
+import redstoneparadox.expandedtoolcraft.materials.PartMaterials
 
 object ExpandedToolcraft : ModInitializer {
 

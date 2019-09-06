@@ -1,6 +1,7 @@
-package redstoneparadox.expandedtoolcraft.parts
+package redstoneparadox.expandedtoolcraft.materials
 
 import redstoneparadox.expandedtoolcraft.ExpandedToolcraft
+import redstoneparadox.expandedtoolcraft.materials.PartMaterial
 
 object PartMaterials {
 

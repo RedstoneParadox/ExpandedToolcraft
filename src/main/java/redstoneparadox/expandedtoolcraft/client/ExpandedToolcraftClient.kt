@@ -17,7 +17,7 @@ import redstoneparadox.expandedtoolcraft.ExpandedToolcraft
 import redstoneparadox.expandedtoolcraft.client.render.DynamicToolBakedModel
 import redstoneparadox.expandedtoolcraft.client.render.DynamicToolPartBakedModel
 import redstoneparadox.expandedtoolcraft.item.Items
-import redstoneparadox.expandedtoolcraft.parts.PartMaterials
+import redstoneparadox.expandedtoolcraft.materials.PartMaterials
 import java.util.function.Consumer
 import java.util.function.Function
 

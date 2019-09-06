@@ -7,7 +7,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
-import redstoneparadox.expandedtoolcraft.parts.PartMaterials
+import redstoneparadox.expandedtoolcraft.materials.PartMaterials
 
 class PartItem(private val name : String) : Item(Item.Settings().group(ItemGroup.TOOLS)) {
 
@@ -25,5 +25,9 @@ class PartItem(private val name : String) : Item(Item.Settings().group(ItemGroup
         }
         return Identifier("minecraft:missingno")
     }
-    
+
+    enum class Type {
+        HEAD,
+        HANDLE,
+    }
 }

@@ -11,7 +11,7 @@ import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.recipe.Ingredient
 import net.minecraft.util.Identifier
-import redstoneparadox.expandedtoolcraft.parts.PartMaterials
+import redstoneparadox.expandedtoolcraft.materials.PartMaterials
 
 // Not finished
 class ModularToolItem(private val parts : HashMap<String, PartItem>) : ToolItem(DelegatedToolMaterial(), Settings().group(ItemGroup.TOOLS)) {
@@ -42,7 +42,6 @@ class ModularToolItem(private val parts : HashMap<String, PartItem>) : ToolItem(
         return ids
     }
 
-    // Code here from getting the repair ingredient from the head material.
     override fun canRepair(itemStack_1: ItemStack?, itemStack_2: ItemStack?): Boolean {
         return false
     }
@@ -63,9 +62,7 @@ class ModularToolItem(private val parts : HashMap<String, PartItem>) : ToolItem(
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        override fun getEnchantability(): Int {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun getEnchantability(): Int = 0
 
         override fun getMiningSpeed(): Float {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
